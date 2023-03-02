@@ -2,9 +2,6 @@
 
 require_once('./DB.php');
 
-// print_r($_POST);
-// print_r($_POST['id']);
-
 $user_id = $_POST['id'];
 $first_name = $_POST['first-name'];
 $Last_Name = $_POST['last-name'];

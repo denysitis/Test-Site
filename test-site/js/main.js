@@ -69,6 +69,45 @@ $('#buttOK').click(function(event) {
   });
 });
 
+//AJAX запит на зміну Set active, Set active, Delete
+$('#buttOKunder').click(function(event) {
+  event.preventDefault();
+
+  const checkboxes = $('input[type="checkbox"]:checked');
+  const selectElement = $('#filter_under');
+
+  checkboxes.each(function() {
+    const id = this.id.split('-')[1];
+    let value = '';
+    switch(selectElement.val()) {
+      case 'Set-active-under':
+      value = 'ON';
+      break;
+      case 'Set-not-active-under':
+      value = 'OFF';
+      break;
+      case 'Delete-under':
+      value = 'DELETE';
+      break;
+      default:
+      value = '';
+    }
+    $.ajax({
+      type: 'POST',
+      url: './checked-toggle.php',
+      data: {id: id, value: value},
+      success: function(response) {
+        console.log(response);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error(textStatus, errorThrown);
+      }
+    });
+  });
+});
+
+
+
 //AJAX запит на оновлення даних у таблиці
 const form = $('#updateform');
 

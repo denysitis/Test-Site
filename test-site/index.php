@@ -127,6 +127,39 @@
             </div>
           </div>
         </div>
+        <div class="container">
+          <div class="row flex-lg-nowrap">      
+            <div class="col">
+              <div class="margin_butt">
+                  <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal">
+                  Add
+                </button>
+              </div>        
+            </div>
+          </div>
+          <div class="row flex-lg-nowrap">
+            <div class="col">        
+              <form>
+                <div class="row card center_row">
+                  <div class="form-group margin_form">
+                    <label for="filter" class="col-form-label">Filter:</label>
+                    <select name="filter" id="filter_under">
+                        <option selected="true" disabled="disabled">-Please Select-</option>
+                        <option value="Set-active-under">Set active</option>
+                        <option value="Set-not-active-under">Set not active</option>
+                        <option value="Delete-under">Delete</option>
+                    </select>
+                  </div>
+                  <div class="form-group margin_form">
+                      <button type="submit" id="buttOKunder" class="btn btn-sm btn-outline-secondary badge">
+                        OK
+                      </button>
+                  </div>
+                </div>        
+              </form>
+            </div>      
+          </div>
+        </div>
         <!-- User Form Modal -->
         <div class="modal fade" id="user-form-modal" tabindex="-1" aria-labelledby="user-form-modal" aria-hidden="true">
         <div class="modal-dialog">
@@ -151,7 +184,7 @@
               <form id="updateform" method="POST">
                 <div>
                   <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                  ID = <?php print_r($row['id']) ?>
+                  <!-- ID = <?php print_r($row['id']) ?> -->
                 </div>
                 <div class="form-group">
                   <label for="first-name" class="col-form-label">First Name:</label>
@@ -188,7 +221,7 @@
           </div>
         </div>
       </div>
-      <?php echo("ID" . $id); ?>
+      <!-- <?php echo("ID" . $id); ?> -->
     </div>
   </div>
 <script src="./js/main.js"></script>
