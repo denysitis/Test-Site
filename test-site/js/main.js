@@ -112,7 +112,7 @@ $('#buttOKunder').click(function(event) {
 const form = $('#updateform');
 
 form.on('submit', function(event) {
-  event.preventDefault();
+  
 
   const formData = form.serialize();
 
@@ -132,6 +132,26 @@ form.on('submit', function(event) {
       console.error('Error:', error);
     }
   });
+
+  event.preventDefault();
+});
+
+//AJAX запит на додавання даних у таблицю
+const createform = $('#createform');
+
+createform.on('submit', function(event) {
+  
+
+  const formData = createform.serialize();
+
+  $.ajax({
+    url: './create.php',
+    type: 'POST',
+    data: formData,
+    dataType: 'json'
+  });
+
+  event.preventDefault();
 });
 
 //AJAX запит на видалення даних у таблиці
@@ -151,7 +171,7 @@ formDel.on('submit', function(event) {
     if (data.status === 200) {
       alert("Сталася помилка! Спробуйте ще раз.");
     } else {
-      alert("Дані успішно збережені!");
+      alert("Дані успішно видалені!");
     }
     },
     error: function(error) {

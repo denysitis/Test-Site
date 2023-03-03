@@ -196,7 +196,7 @@
                 <div class="form-group">
                   <label for="last-name" class="col-form-label">Last Name:</label>
                   <input type="text" required name="last-name" class="form-control" id="last-name" value="<?= $row['Last_Name']?>">
-                  <?php if (empty($_POST['last-name'])): ?>
+                  <?php if (empty($_POST['Last-name'])): ?>
                       <div class="error">Поле 'Прізвище' не може бути порожнім</div>
                   <?php endif; ?>
                 </div>
@@ -221,7 +221,41 @@
           </div>
         </div>
       </div>
-      <!-- <?php echo("ID" . $id); ?> -->
+
+      <!-- Наступна форма тільки для тесту -->
+      <div class="modal-body">
+          <form id="createform" method="POST">
+            <div class="form-group">
+              <label for="first-name" class="col-form-label">First Name:</label>
+              <input type="text" required name="first-name" class="form-control" id="first-name" value="<?= $row['First_Name']?>">
+              <?php if (empty($_POST['first-name'])): ?>
+                  <div class="error">Поле 'Ім'я' не може бути порожнім</div>
+              <?php endif; ?>
+            </div>
+            <div class="form-group">
+              <label for="last-name" class="col-form-label">Last Name:</label>
+              <input type="text" required name="last-name" class="form-control" id="last-name" value="<?= $row['Last_Name']?>">
+              <?php if (empty($_POST['Last-name'])): ?>
+                  <div class="error">Поле 'Прізвище' не може бути порожнім</div>
+              <?php endif; ?>
+            </div>
+            <div class="form-group status_block">
+              <label for="toggle-button-status" class="col-form-label">Status:</label>
+              <input type="hidden" name="toggle" value="OFF">
+              <input type="checkbox" name="toggle" id="toggle-button-status" class="toggle-button" value="ON">
+            </div>
+            <div class="form-group">
+              <label for="role" class="col-form-label">Role:</label>
+              <select name="role" id="role">
+                  <option value="Admin">Admin</option>
+                  <option value="User">User</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">ADD</button>
+            </div>
+          </form>
+        </div>
     </div>
   </div>
 <script src="./js/main.js"></script>
