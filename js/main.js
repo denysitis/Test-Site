@@ -275,51 +275,43 @@ form.on('submit', function(event) {
           
           $('[id^="edit-button-"]').click(function() {
             var id = $(this).data('id');
-            console.log("id edit= " + id);
-            if (clickCounts[id] == null || clickCounts[id] == 0) {
-              clickCounts[id] = 1;
-            } else if (clickCounts[id] == 1) {
-              clickCounts[id] = 0;
+            $('#user-form-modal').modal('show');
+            $('#user-form-modal').find('#updateform input[name="id"]').val(id);
+            //console.log(id);
+            $.ajax({
+                url: './proces.php',
+                type: 'POST',
+                data: { new_id: id },
+                success: function(response) {
+                  const data_proces = JSON.parse(response);
 
-              $('#user-form-modal').modal('show');
-              $('#user-form-modal').find('#updateform input[name="id"]').val(id);
-              //console.log(id);
-              $.ajax({
-                  url: './proces.php',
-                  type: 'POST',
-                  data: { new_id: id },
-                  success: function(response) {
-                    const data_proces = JSON.parse(response);
+                  const name_first = data_proces.name_first;
+                  const name_last = data_proces.name_last;
+                  const role = data_proces.role;
+                  const toggle = data_proces.toggle;
 
-                    
-                    const name_first = data_proces.name_first;
-                    const name_last = data_proces.name_last;
-                    const role = data_proces.role;
-                    const toggle = data_proces.toggle;
+                  $('#user-form-modal').find('#updateform input[name="first-name"]').val(name_first);
+                  $('#user-form-modal').find('#updateform input[name="last-name"]').val(name_last);
 
-                    $('#user-form-modal').find('#updateform input[name="first-name"]').val(name_first);
-                    $('#user-form-modal').find('#updateform input[name="last-name"]').val(name_last);
-
-                    if (toggle === 'ON') {
-                      $('.toggle-button').prop('checked', true);
-                      $('.toggle-button').val('ON');
-                    } else if (toggle === 'OFF') {
-                      $('.toggle-button').prop('checked', false);
-                      $('.toggle-button').val('OFF');
-                    }
-
-                    if (role === 'Admin') {
-                      $('#role').val('Admin');
-                    } else if (role === 'User') {
-                      $('#role').val('User');
-                    }
-
-                  },
-                  error: function(jqXHR, textStatus, errorThrown) {
-                    console.error(textStatus, errorThrown);
+                  if (toggle === 'ON') {
+                    $('.toggle-button').prop('checked', true);
+                    $('.toggle-button').val('ON');
+                  } else if (toggle === 'OFF') {
+                    $('.toggle-button').prop('checked', false);
+                    $('.toggle-button').val('OFF');
                   }
-              });
-            }
+
+                  if (role === 'Admin') {
+                    $('#role').val('Admin');
+                  } else if (role === 'User') {
+                    $('#role').val('User');
+                  }
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                  console.error(textStatus, errorThrown);
+                }
+            });
           });
         });
         $('[id^="delete-button-"]').click(function() {
@@ -339,6 +331,25 @@ form.on('submit', function(event) {
             },
             error: function(jqXHR, textStatus, errorThrown) {
               console.error(textStatus, errorThrown);
+            }
+          });
+        });
+        const allItemsCheckbox = $('#all-items');
+        const customCheckboxes = $('.custom-control-input');
+
+        allItemsCheckbox.on('click', () => {
+          customCheckboxes.each(function() {
+            this.checked = allItemsCheckbox.prop('checked');
+          });
+        });
+
+        customCheckboxes.each(function() {
+          $(this).on('click', () => {
+            if (!this.checked) {
+              allItemsCheckbox.prop('checked', false);
+            } else {
+              const allChecked = customCheckboxes.toArray().every(cb => cb.checked);
+              allItemsCheckbox.prop('checked', allChecked);
             }
           });
         });
@@ -400,50 +411,42 @@ $(document).ready(function() {
   
   $('[id^="edit-button-"]').click(function() {
     var id = $(this).data('id');
-    console.log("id edit= " + id);
-    if (clickCounts[id] == null || clickCounts[id] == 0) {
-      clickCounts[id] = 1;
-    } else if (clickCounts[id] == 1) {
-      clickCounts[id] = 0;
+    $('#user-form-modal').modal('show');
+    $('#user-form-modal').find('#updateform input[name="id"]').val(id);
+    //console.log(id);
+    $.ajax({
+        url: './proces.php',
+        type: 'POST',
+        data: { new_id: id },
+        success: function(response) {
+          const data_proces = JSON.parse(response);
 
-      $('#user-form-modal').modal('show');
-      $('#user-form-modal').find('#updateform input[name="id"]').val(id);
-      //console.log(id);
-      $.ajax({
-          url: './proces.php',
-          type: 'POST',
-          data: { new_id: id },
-          success: function(response) {
-            const data_proces = JSON.parse(response);
+          const name_first = data_proces.name_first;
+          const name_last = data_proces.name_last;
+          const role = data_proces.role;
+          const toggle = data_proces.toggle;
 
-            
-            const name_first = data_proces.name_first;
-            const name_last = data_proces.name_last;
-            const role = data_proces.role;
-            const toggle = data_proces.toggle;
+          $('#user-form-modal').find('#updateform input[name="first-name"]').val(name_first);
+          $('#user-form-modal').find('#updateform input[name="last-name"]').val(name_last);
 
-            $('#user-form-modal').find('#updateform input[name="first-name"]').val(name_first);
-            $('#user-form-modal').find('#updateform input[name="last-name"]').val(name_last);
-
-            if (toggle === 'ON') {
-              $('.toggle-button').prop('checked', true);
-              $('.toggle-button').val('ON');
-            } else if (toggle === 'OFF') {
-              $('.toggle-button').prop('checked', false);
-              $('.toggle-button').val('OFF');
-            }
-
-            if (role === 'Admin') {
-              $('#role').val('Admin');
-            } else if (role === 'User') {
-              $('#role').val('User');
-            }
-
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-            console.error(textStatus, errorThrown);
+          if (toggle === 'ON') {
+            $('.toggle-button').prop('checked', true);
+            $('.toggle-button').val('ON');
+          } else if (toggle === 'OFF') {
+            $('.toggle-button').prop('checked', false);
+            $('.toggle-button').val('OFF');
           }
-      });
-    }
+
+          if (role === 'Admin') {
+            $('#role').val('Admin');
+          } else if (role === 'User') {
+            $('#role').val('User');
+          }
+
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.error(textStatus, errorThrown);
+        }
+    });
   });
 });
