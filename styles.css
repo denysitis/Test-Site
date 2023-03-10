@@ -54,6 +54,10 @@ body{
   color: red;
   font-size: 12px;
 }
+.errorfront {
+  color: red;
+  font-size: 12px;
+}
 
 .margin_form {
   margin: 0 10px 0 10px;

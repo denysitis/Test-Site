@@ -21,39 +21,35 @@
 <body>
   <?php $back_data_view = view_DB($connect); ?>
   <div class="container">
-    <div class="row flex-lg-nowrap">      
-      <div class="col">
-        <div class="margin_butt">
-            <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal">
-            Add
-          </button>
-        </div>        
+    <div class="container">
+      <div class="row flex-lg-nowrap">
+        <div class="col mb-3">        
+          <form>
+            <div class="row card center_row">
+              <div class="form-group margin_form">
+                <label for="filter" class="col-form-label">Filter:</label>
+                <select name="filter" id="filter">
+                    <option selected="true" disabled="disabled">-Please Select-</option>
+                    <option value="Set-active">Set active</option>
+                    <option value="Set-not-active">Set not active</option>
+                    <option value="Delete">Delete</option>
+                </select>
+              </div>
+              <div class="form-group margin_form">
+                  <button type="submit" id="buttOK" class="btn btn-sm btn-outline-secondary badge" data-target="#delete-user-modal">
+                    OK
+                  </button>
+              </div>
+              <div class="margin_form">
+                <button id="add_butt" class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal">
+                  Add
+                </button>
+              </div>
+            </div>        
+          </form>
+        </div>      
       </div>
     </div>
-    <div class="row flex-lg-nowrap">
-      <div class="col">        
-        <form>
-          <div class="row card center_row">
-            <div class="form-group margin_form">
-              <label for="filter" class="col-form-label">Filter:</label>
-              <select name="filter" id="filter">
-                  <option selected="true" disabled="disabled">-Please Select-</option>
-                  <option value="Set-active">Set active</option>
-                  <option value="Set-not-active">Set not active</option>
-                  <option value="Delete">Delete</option>
-              </select>
-            </div>
-            <div class="form-group margin_form">
-                <button type="submit" id="buttOK" class="btn btn-sm btn-outline-secondary badge" data-target="#delete-user-modal">
-                  OK
-                </button>
-            </div>
-          </div>        
-        </form>
-      </div>      
-    </div>
-  </div>
-  <div class="container">
     <div class="row flex-lg-nowrap">
       <div class="col">
         <div class="row flex-lg-nowrap">
@@ -101,7 +97,7 @@
                           <td class="text-center align-middle">
                             <div class="btn-group align-top">
                                    
-                              <button id="edit-button-<?= $value['id']; ?>" class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-id="<?= $value['id']; ?>">Edit</button> 
+                              <button id="edit-button-<?= $value['id']; ?>" class="btn btn-sm btn-outline-secondary badge edit_clear" type="button" data-toggle="modal" data-id="<?= $value['id']; ?>">Edit</button> 
                               
                               <button id="delete-button-<?= $value['id'] ?>" class="btn btn-sm btn-outline-secondary badge" type="button" data-id="<?= $value['id']; ?>"><i class="fa fa-trash"></i></button>
                               
@@ -120,15 +116,6 @@
           </div>
         </div>
         <div class="container">
-          <div class="row flex-lg-nowrap">      
-            <div class="col">
-              <div class="margin_butt">
-                  <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal">
-                  Add
-                </button>
-              </div>        
-            </div>
-          </div>
           <div class="row flex-lg-nowrap">
             <div class="col">        
               <form>
@@ -147,6 +134,11 @@
                         OK
                       </button>
                   </div>
+                  <div class="margin_form">
+                      <button id="add_butt" class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal">
+                      Add
+                    </button>
+                  </div>
                 </div>        
               </form>
             </div>      
@@ -162,25 +154,38 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-                                
               <div class="modal-body">
+              <?php 
+                $errors = array();
+                if (isset($_POST['submit'])) {
+                  echo "send";
+                    if (empty($_POST['first-name'])) {
+                        $errors[] = "Поле 'Ім'я' не може бути порожнім";
+                    }
+                    if (empty($_POST['last-name'])) {
+                        $errors[] = "Поле 'Прізвище' не може бути порожнім";
+                    }
+                }
+                ?>           
                 <form id="updateform" method="POST">
                   <div>
                     <input type="hidden" name="id" value="">
                   </div>
                   <div class="form-group">
                     <label for="first-name" class="col-form-label">First Name:</label>
-                    <input type="text" required name="first-name" class="form-control" id="first-name" value="">
-                    <?php if (empty($_POST['first-name'])): ?>
-                        <div class="error">Поле 'Ім'я' не може бути порожнім</div>
+                    <input type="text" name="first-name" class="form-control" id="first-name" value="">
+                    <?php if (in_array("Поле 'Ім'я' не може бути порожнім", $errors)): ?>
+                      <div class="error">Поле 'Ім'я' не може бути порожнім</div>
                     <?php endif; ?>
+                    <div class="errorfront"></div>
                   </div>
                   <div class="form-group">
                     <label for="last-name" class="col-form-label">Last Name:</label>
-                    <input type="text" required name="last-name" class="form-control" id="last-name" value="">
-                    <?php if (empty($_POST['last-name'])): ?>
-                        <div class="error">Поле 'Прізвище' не може бути порожнім</div>
+                    <input type="text" name="last-name" class="form-control" id="last-name" value="">
+                    <?php if (in_array("Поле 'Прізвище' не може бути порожнім", $errors)): ?>
+                      <div class="error">Поле 'Прізвище' не може бути порожнім</div>
                     <?php endif; ?>
+                    <div class="errorfront"></div>
                   </div>
                   <div class="form-group status_block">
                     <label for="toggle-button-status" class="col-form-label">Status:</label>
@@ -194,12 +199,19 @@
                         <option value="User">User</option>
                     </select>
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                  </div>
+                  <?php if (!empty($errors)): ?>
+                    <div class="error">
+                      <?php foreach ($errors as $error): ?>
+                        <p><?php echo $error ?></p>
+                      <?php endforeach; ?>
+                    </div>
+                  <?php endif; ?>
                 </form>              
               </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" form="updateform" class="btn btn-primary">Save</button>
+                  </div>
             </div>
           </div>
         </div>
@@ -216,9 +228,9 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="modal-body">
+        <p>
           Ви впевнені, що хочете видалити цього користувача(ів)?
-        </div>
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Ні</button>
@@ -227,14 +239,60 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="delete-user-modal-single" tabindex="-1" aria-labelledby="delete-user-modal-single" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="delete-user-modal-label">Видалити користувача?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Ви впевнені, що хочете видалити цього користувача(ів)?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ні</button>
+        <button type="button" id="confirm-delete-user-single" class="btn btn-danger">Так</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="none-reaction-and-user" tabindex="-1" aria-labelledby="none-reaction-and-user" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="none-reaction-and-user-label">Warning</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Будь ласка, виберіть користувача(ів) і дію
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">ОК</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal fade" id="select-an-action-modal" tabindex="-1" aria-labelledby="select-an-action-modal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="select-an-action-modal-label">Будь ласка, виберіть дію</h5>
+        <h5 class="modal-title" id="select-an-action-modal-label">Warning</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Будь ласка, виберіть дію
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">ОК</button>
@@ -246,10 +304,15 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="select-an-user-modal-label">Будь ласка, виберіть користувача(ів)</h5>
+        <h5 class="modal-title" id="select-an-user-modal-label">Warning</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Будь ласка, виберіть користувача(ів)
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">ОК</button>
@@ -261,10 +324,15 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="user-success-update-form-label">Данні про користувача успішно оновлені</h5>
+        <h5 class="modal-title" id="user-success-update-form-label">Information</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Данні про користувача успішно оновлені
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">ОК</button>
@@ -272,22 +340,6 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="user-success-create-form" tabindex="-1" aria-labelledby="user-success-create-form" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="user-success-create-form-label">Користувач успішно доданий</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">ОК</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 
 <script src="./js/main.js"></script>
 </body>
