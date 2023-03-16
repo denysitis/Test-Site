@@ -155,18 +155,7 @@
                 </button>
               </div>
               <div class="modal-body">
-              <?php 
-                $errors = array();
-                if (isset($_POST['submit'])) {
-                  echo "send";
-                    if (empty($_POST['first-name'])) {
-                        $errors[] = "Поле 'Ім'я' не може бути порожнім";
-                    }
-                    if (empty($_POST['last-name'])) {
-                        $errors[] = "Поле 'Прізвище' не може бути порожнім";
-                    }
-                }
-                ?>           
+                   
                 <form id="updateform" method="POST">
                   <div>
                     <input type="hidden" name="id" value="">
@@ -174,23 +163,19 @@
                   <div class="form-group">
                     <label for="first-name" class="col-form-label">First Name:</label>
                     <input type="text" name="first-name" class="form-control" id="first-name" value="">
-                    <?php if (in_array("Поле 'Ім'я' не може бути порожнім", $errors)): ?>
-                      <div class="error">Поле 'Ім'я' не може бути порожнім</div>
-                    <?php endif; ?>
-                    <div class="errorfront"></div>
+                    
+                    <div class="errorfront first-name-error"></div>
                   </div>
                   <div class="form-group">
                     <label for="last-name" class="col-form-label">Last Name:</label>
                     <input type="text" name="last-name" class="form-control" id="last-name" value="">
-                    <?php if (in_array("Поле 'Прізвище' не може бути порожнім", $errors)): ?>
-                      <div class="error">Поле 'Прізвище' не може бути порожнім</div>
-                    <?php endif; ?>
-                    <div class="errorfront"></div>
+                    
+                    <div class="errorfront last-name-error"></div>
                   </div>
                   <div class="form-group status_block">
                     <label for="toggle-button-status" class="col-form-label">Status:</label>
-                    <input type="hidden" name="toggle" value="OFF">
-                    <input type="checkbox" name="toggle" id="toggle-button-status" class="toggle-button" value="ON">
+                    <input type="hidden" name="toggle" value="0">
+                    <input type="checkbox" name="toggle" id="toggle-button-status" class="toggle-button" value="1">
                   </div>
                   <div class="form-group">
                     <label for="role" class="col-form-label">Role:</label>
@@ -199,13 +184,7 @@
                         <option value="User">User</option>
                     </select>
                   </div>
-                  <?php if (!empty($errors)): ?>
-                    <div class="error">
-                      <?php foreach ($errors as $error): ?>
-                        <p><?php echo $error ?></p>
-                      <?php endforeach; ?>
-                    </div>
-                  <?php endif; ?>
+                  
                 </form>              
               </div>
                   <div class="modal-footer">
@@ -218,6 +197,8 @@
       </div>
     </div>
   </div>
+
+<!-- Поп-ап вікна -->
 <div class="modal fade" id="delete-user-modal" tabindex="-1" aria-labelledby="delete-user-modal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -250,7 +231,7 @@
       </div>
       <div class="modal-body">
         <p>
-          Ви впевнені, що хочете видалити цього користувача(ів)?
+          Ви впевнені, що хочете видалити користувача <span class="first-name"></span> <span class="last-name"></span>?
         </p>
       </div>
       <div class="modal-footer">
@@ -320,18 +301,38 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="user-success-update-form" tabindex="-1" aria-labelledby="user-success-update-form" aria-hidden="true">
+<div class="modal fade" id="error-user-not-found" tabindex="-1" aria-labelledby="error-user-not-found" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="user-success-update-form-label">Information</h5>
+        <h5 class="modal-title" id="error-user-not-found-label">Warning</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <p>
-          Данні про користувача успішно оновлені
+          Користувача з ID <span class="error-id"></span> не знайдено!
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">ОК</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="error-users-not-found" tabindex="-1" aria-labelledby="error-users-not-found" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="error-users-not-found-label">Warning</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Користувача(ів) зі списку не існує!
         </p>
       </div>
       <div class="modal-footer">
