@@ -2,12 +2,11 @@
 
 require_once('./DB.php');
 
-
-$user_id = $_POST['id'];
-$first_name = $_POST['first-name'];
-$Last_Name = $_POST['last-name'];
-$Role = $_POST['role'];
-$toggle = $_POST['toggle'];
+$user_id = mysqli_real_escape_string($connect, $_POST['id']);
+$first_name = mysqli_real_escape_string($connect, $_POST['first-name']);
+$Last_Name = mysqli_real_escape_string($connect, $_POST['last-name']);
+$Role = mysqli_real_escape_string($connect, $_POST['role']);
+$toggle = mysqli_real_escape_string($connect, $_POST['toggle']);
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -15,26 +14,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if (preg_match('/\d/', $first_name)) { // додано перевірку на цифри
 	    $response = array('status' => false, 'error' => array('code' => 100, 'message' => "Поле ім'я не може містити цифри"));
 	    echo json_encode($response);
+	    exit();
 	}
 	else if (preg_match('/\s/', $first_name)) { // додано перевірку на пробіли
 	    $response = array('status' => false, 'error' => array('code' => 100, 'message' => "Поле ім'я не може містити пробіли"));
 	    echo json_encode($response);
+	    exit();
 	}
 	elseif (preg_match('/\d/', $Last_Name)) { // додано перевірку на цифри
 	    $response = array('status' => false, 'error' => array('code' => 100, 'message' => "Поле прізвище не може містити цифри"));
 	    echo json_encode($response);
+	    exit();
 	}
 	else if (preg_match('/\s/', $Last_Name)) { // додано перевірку на пробіли
 	    $response = array('status' => false, 'error' => array('code' => 100, 'message' => "Поле прізвище не може містити пробіли"));
 	    echo json_encode($response);
+	    exit();
 	}
 	else if (empty($first_name)) {		
 		$response = array('status' => false, 'error' => array('code' => 100, 'message' => "Поле імя не може бути пустим"));
 		echo json_encode($response);
+		exit();
 	} 
 	else if (empty($Last_Name)) {		
 		$response = array('status' => false, 'error' => array('code' => 100, 'message' => "Поле прізвище не може бути пустим"));
 		echo json_encode($response);
+		exit();
 	}
 	else {
 		if (empty($user_id)) {

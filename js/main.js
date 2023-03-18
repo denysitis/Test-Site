@@ -1,3 +1,13 @@
+// Масив зі значеннями для вибору ролі користувача
+const roles = {
+  1: "Admin",
+  2: "User"
+};
+$.each(roles, function(index, value) {
+  $("#role").append("<option value='" + value + "'>" + value + "</option>");
+});
+
+
 // Динамічне встановлення значення ON OFF
 $('#toggle-button-status').on('change', function() {
   if ($(this).is(':checked')) {
@@ -14,21 +24,7 @@ $('#user-form-modal').on('hidden.bs.modal', function(e) {
   $('#updateform input[name="last-name"]').val('');
   $('.toggle-button').prop('checked', false);
   $('.toggle-button').val('0');
-  $('#role').val('Admin');
-});
-
-
-//Зміна кольору кружечка
-$('i.fa-circle').each(function() {
-  const spanTag = $(this).find('span');
-
-  if (spanTag.text() == '1') {
-    $(this).addClass('active-circle');
-    $(this).removeClass('not-active-circle');
-  } else if (spanTag.text() == '0') {
-    $(this).addClass('not-active-circle');
-    $(this).removeClass('active-circle');
-  }
+  $('#role').val(roles[1]);
 });
 
 // Заміна add user на edit user
@@ -72,27 +68,32 @@ $('#buttOK').click(function(event) {
   const selectElement = $('#filter');
 
   if (!selectElement.val() && !checkboxes.length) {
-    $('#none-reaction-and-user').modal('show');
-    $('#none-reaction-and-user').css('display', 'block').removeAttr('aria-hidden');
+    $('#warning-modal').modal('show');
+    $('#warning-modal').css('display', 'block').removeAttr('aria-hidden');
+    $('#warning-modal').find('.modal-body p').text("Будь ласка, виберіть користувача(ів) і дію");
   }
   else if (!selectElement.val()) {
-    $('#select-an-action-modal').modal('show');
-    $('#select-an-action-modal').css('display', 'block').removeAttr('aria-hidden');
+    $('#warning-modal').modal('show');
+    $('#warning-modal').css('display', 'block').removeAttr('aria-hidden');
+    $('#warning-modal').find('.modal-body p').text("Будь ласка, виберіть дію");
   }
   else if (selectElement.val() === 'Delete') {
     if (!checkboxes.length) {
-      $('#select-an-user-modal').modal('show');
-      $('#select-an-user-modal').css('display', 'block').removeAttr('aria-hidden');
+      $('#warning-modal').modal('show');
+      $('#warning-modal').css('display', 'block').removeAttr('aria-hidden');
+      $('#warning-modal').find('.modal-body p').text("Будь ласка, виберіть користувача(ів)");
     }
     else {
       $('#delete-user-modal').modal('show');
       $('#delete-user-modal').css('display', 'block').removeAttr('aria-hidden');
+      $('#delete-user-modal').find('.modal-body p').text("Ви впевнені, що хочете видалити цього користувача(ів)?");
     }
   }
   else {
     if (!checkboxes.length) {
-      $('#select-an-user-modal').modal('show');
-      $('#select-an-user-modal').css('display', 'block').removeAttr('aria-hidden');
+      $('#warning-modal').modal('show');
+      $('#warning-modal').css('display', 'block').removeAttr('aria-hidden');
+      $('#warning-modal').find('.modal-body p').text("Будь ласка, виберіть користувача(ів)");
     } else {
       const id_array = [];
       const value_array = [];
@@ -125,7 +126,8 @@ $('#buttOK').click(function(event) {
             data.forEach(function(item) {
             //console.log(item.error.message);
             if (item.error !== null && item.error.message === "ID does not exist in database") {
-              $('#error-users-not-found').modal('show');
+              $('#warning-modal').modal('show');
+              $('#warning-modal').find('.modal-body p').text("Користувача(ів) зі списку не існує!");
             }
             else {
               const id = item.user.id;
@@ -136,11 +138,11 @@ $('#buttOK').click(function(event) {
                   if (rowId === 'user-' + id) {
                     const circle = $(this).find('i.fa-circle');
                     if (toggle == '1') {
-                      circle.find('span').text('1');
-                      circle.addClass('active-circle').removeClass('not-active-circle');
+                      //circle.find('span').text('1');
+                      circle.addClass('active')
                     } else if (toggle == '0') {
-                      circle.find('span').text('0');
-                      circle.addClass('not-active-circle').removeClass('active-circle');
+                      //circle.find('span').text('0');
+                      circle.removeClass('active');
                     }
                   }
                 });
@@ -169,27 +171,32 @@ $('#buttOKunder').click(function(event) {
   const selectElement = $('#filter_under');
 
   if (!selectElement.val() && !checkboxes.length) {
-    $('#none-reaction-and-user').modal('show');
-    $('#none-reaction-and-user').css('display', 'block').removeAttr('aria-hidden');
+    $('#warning-modal').modal('show');
+    $('#warning-modal').css('display', 'block').removeAttr('aria-hidden');
+    $('#warning-modal').find('.modal-body p').text("Будь ласка, виберіть користувача(ів) і дію");
   }
   else if (!selectElement.val()) {
-    $('#select-an-action-modal').modal('show');
-    $('#select-an-action-modal').css('display', 'block').removeAttr('aria-hidden');
+    $('#warning-modal').modal('show');
+    $('#warning-modal').css('display', 'block').removeAttr('aria-hidden');
+    $('#warning-modal').find('.modal-body p').text("Будь ласка, виберіть дію");
   }
   else if (selectElement.val() === 'Delete-under') {
     if (!checkboxes.length) {
-      $('#select-an-user-modal').modal('show');
-      $('#select-an-user-modal').css('display', 'block').removeAttr('aria-hidden');
+      $('#warning-modal').modal('show');
+      $('#warning-modal').css('display', 'block').removeAttr('aria-hidden');
+      $('#warning-modal').find('.modal-body p').text("Будь ласка, виберіть користувача(ів)");
     }
     else {
       $('#delete-user-modal').modal('show');
       $('#delete-user-modal').css('display', 'block').removeAttr('aria-hidden');
+      $('#delete-user-modal').find('.modal-body p').text("Ви впевнені, що хочете видалити цього користувача(ів)?");
     }
   }
   else {
     if (!checkboxes.length) {
-      $('#select-an-user-modal').modal('show');
-      $('#select-an-user-modal').css('display', 'block').removeAttr('aria-hidden');
+      $('#warning-modal').modal('show');
+      $('#warning-modal').css('display', 'block').removeAttr('aria-hidden');
+      $('#warning-modal').find('.modal-body p').text("Будь ласка, виберіть користувача(ів)");
     } else {
       const id_array = [];
       const value_array = [];
@@ -222,7 +229,8 @@ $('#buttOKunder').click(function(event) {
 
             data.forEach(function(item) {
             if (item.error !== null && item.error.message === "ID does not exist in database") {
-              $('#error-users-not-found').modal('show');
+              $('#warning-modal').modal('show');
+              $('#warning-modal').find('.modal-body p').text("Користувача(ів) зі списку не існує!");
             }
             else {
               const id = item.user.id;
@@ -233,11 +241,11 @@ $('#buttOKunder').click(function(event) {
                   if (rowId === 'user-' + id) {
                     const circle = $(this).find('i.fa-circle');
                     if (toggle == '1') {
-                      circle.find('span').text('1');
-                      circle.addClass('active-circle').removeClass('not-active-circle');
+                      //circle.find('span').text('1');
+                      circle.addClass('active');
                     } else if (toggle == '0') {
-                      circle.find('span').text('0');
-                      circle.addClass('not-active-circle').removeClass('active-circle');
+                      //circle.find('span').text('0');
+                      circle.removeClass('active');
                     }
                   }
                 });
@@ -278,6 +286,7 @@ $("#confirm-delete-user").click(function(event) {
     data: { id: id_array, value: value_array },
     success: function(response) {
     const data = JSON.parse(response);
+    //console.log(data);
     data.forEach(function(user) {
       console.log("delete id = " + user.id);
       const DeleteUserWithConfirm = document.getElementById("user-" + user.id);
@@ -360,19 +369,19 @@ form.on('submit', function(event) {
         if (!userRow.length) {
         // якщо користувача немає, додаємо його до таблиці
           if (status == '1') {
-            statusField_fa_circle = 'active-circle';
+            statusField_fa_circle = 'active';
           } else if (status == '0') {
-            statusField_fa_circle = 'not-active-circle';
+            statusField_fa_circle = '';
           }
           const tbody = $('tbody');
-          const newRow = $('<tr></tr>').attr('id', 'user-' + id).html('<td class="align-middle"> <div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top"> <input type="checkbox" class="custom-control-input checkbox-user new-checkbox" id="item-' + id + '"> <label class="custom-control-label" for="item-' + id + '"></label> </div> </td> <td class="text-nowrap align-middle name-field">' + name_first + ' ' + name_last + '</td> <td class="text-nowrap align-middle role-field"><span>' + role + '</span></td> <td class="text-center align-middle"><i class="fa fa-circle '+ statusField_fa_circle +' "><span data-id="' + id + '" style="display: none;" class="status-field">' + status + '</span></i></td> <td class="text-center align-middle"> <div class="btn-group align-top"> <button id="edit-button-' + id + '" class="btn btn-sm btn-outline-secondary badge edit_clear" type="button" data-toggle="modal" data-id="' + id + '">Edit</button> <button id="delete-button-' + id + '" class="btn btn-sm btn-outline-secondary badge" type="button" data-id="' + id + '"><i class="fa fa-trash"></i></button></div> </td>');
+          const newRow = $('<tr></tr>').attr('id', 'user-' + id).html('<td class="align-middle"> <div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top"> <input type="checkbox" class="custom-control-input checkbox-user new-checkbox" id="item-' + id + '"> <label class="custom-control-label" for="item-' + id + '"></label> </div> </td> <td class="text-nowrap align-middle name-field">' + name_first + ' ' + name_last + '</td> <td class="text-nowrap align-middle role-field"><span>' + role + '</span></td> <td class="text-center align-middle"><i class="fa fa-circle status-circle '+ statusField_fa_circle +' "><span data-id="' + id + '" style="display: none;" class="status-field">' + status + '</span></i></td> <td class="text-center align-middle"> <div class="btn-group align-top"> <button id="edit-button-' + id + '" class="btn btn-sm btn-outline-secondary badge edit_clear" type="button" data-toggle="modal">Edit</button> <button id="delete-button-' + id + '" class="btn btn-sm btn-outline-secondary badge" type="button"><i class="fa fa-trash"></i></button></div> </td>');
           tbody.append(newRow);
           $('#user-form-modal').modal('hide');
           $(document).ready(function() {
             var clickCounts = {};
             
             $('[id^="edit-button-"]').click(function() {
-              var id = $(this).data('id');
+              var id = $(this).attr("id").split("-")[2];
               
               $('#user-form-modal').find('#updateform input[name="id"]').val(id);
               //console.log(id);
@@ -384,8 +393,8 @@ form.on('submit', function(event) {
                     const data_proces = JSON.parse(response);
 
                     if (data_proces.error !== null && data_proces.error.message === "User with ID " + data_proces.error.new_id + " not found") {
-                      $('#error-user-not-found').modal('show');
-                      $('#error-user-not-found').find('span.error-id').text(data_proces.error.new_id);
+                      $('#warning-modal').modal('show');
+                      $('#warning-modal').find('.modal-body p').text("Користувача з ID " + data_proces.error.new_id + " не знайдено!");
                     }
                     else {
                       $('#user-form-modal').modal('show');
@@ -406,10 +415,10 @@ form.on('submit', function(event) {
                         $('.toggle-button').val('0');
                       }
 
-                      if (role === 'Admin') {
-                        $('#role').val('Admin');
-                      } else if (role === 'User') {
-                        $('#role').val('User');
+                      if (role === roles[1]) {
+                        $('#role').val(roles[1]);
+                      } else if (role === roles[2]) {
+                        $('#role').val(roles[2]);
                       }
                     }
                   },
@@ -420,9 +429,9 @@ form.on('submit', function(event) {
             });
           });
           $('[id^="delete-button-"]').click(function() {
-            var id = $(this).data('id');
-            $('#delete-user-modal-single').modal('show');
-            $('#delete-user-modal-single').css('display', 'block').removeAttr('aria-hidden');
+            var id = $(this).attr("id").split("-")[2];
+            $('#delete-user-modal').modal('show');
+            $('#delete-user-modal').css('display', 'block').removeAttr('aria-hidden');
 
 
             //Отримання даних з БД при відкритті модального вікна на видалення, де отримуємо імя і прізвище
@@ -435,10 +444,7 @@ form.on('submit', function(event) {
 
                   const name_first = data_proces.user.name_first;
                   const name_last = data_proces.user.name_last;
-
-                  $('#delete-user-modal-single').find('span.first-name').text(name_first);
-                  $('#delete-user-modal-single').find('span.last-name').text(name_last);
-
+                  $('#delete-user-modal').find('.modal-body p').text("Ви впевнені, що хочете видалити користувача " + name_first + " " + name_last +"?");
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                   console.error(textStatus, errorThrown);
@@ -465,7 +471,7 @@ form.on('submit', function(event) {
                   console.error(textStatus, errorThrown);
                 }
               });
-              $('#delete-user-modal-single').modal('hide');
+              $('#delete-user-modal').modal('hide');
             });
           });
 
@@ -540,9 +546,9 @@ form.on('submit', function(event) {
           
 
           if (status == '1') {
-            statusField_fa_circle.addClass('active-circle').removeClass('not-active-circle');
+            statusField_fa_circle.addClass('active');
           } else if (status == '0') {
-            statusField_fa_circle.addClass('not-active-circle').removeClass('active-circle');
+            statusField_fa_circle.removeClass('active');
           }
           $('#user-form-modal').modal('hide');          
         }        
@@ -556,9 +562,9 @@ form.on('submit', function(event) {
 
 //AJAX запит на видалення даних у таблиці (працює)
 $('[id^="delete-button-"]').click(function() {
-  var id = $(this).data('id');
-  $('#delete-user-modal-single').modal('show');
-  $('#delete-user-modal-single').css('display', 'block').removeAttr('aria-hidden');
+  var id = $(this).attr("id").split("-")[2];
+  $('#delete-user-modal').modal('show');
+  $('#delete-user-modal').css('display', 'block').removeAttr('aria-hidden');
 
   //Отримання даних з БД при відкритті модального вікна на видалення, де отримуємо імя і прізвище
   $.ajax({
@@ -570,10 +576,7 @@ $('[id^="delete-button-"]').click(function() {
         //console.log(data_proces.user);        
         const name_first = data_proces.user.name_first;
         const name_last = data_proces.user.name_last;
-
-        $('#delete-user-modal-single').find('span.first-name').text(name_first);
-        $('#delete-user-modal-single').find('span.last-name').text(name_last);
-
+        $('#delete-user-modal').find('.modal-body p').text("Ви впевнені, що хочете видалити користувача " + name_first + " " + name_last +"?");
       },
       error: function(jqXHR, textStatus, errorThrown) {
         console.error(textStatus, errorThrown);
@@ -600,7 +603,7 @@ $('[id^="delete-button-"]').click(function() {
         console.error(textStatus, errorThrown);
       }
     });
-    $('#delete-user-modal-single').modal('hide');
+    $('#delete-user-modal').modal('hide');
   });
 });
 
@@ -610,7 +613,7 @@ $(document).ready(function() {
   var clickCounts = {};
   
   $('[id^="edit-button-"]').click(function() {
-    var id = $(this).data('id');
+    var id = $(this).attr("id").split("-")[2];
     
     $('#user-form-modal').find('#updateform input[name="id"]').val(id);
     //console.log(id);
@@ -623,8 +626,8 @@ $(document).ready(function() {
 
           //console.log(data_proces.error.message);
           if (data_proces.error !== null && data_proces.error.message === "User with ID " + data_proces.error.new_id + " not found") {
-            $('#error-user-not-found').modal('show');
-            $('#error-user-not-found').find('span.error-id').text(data_proces.error.new_id);
+            $('#warning-modal').modal('show');
+            $('#warning-modal').find('.modal-body p').text("Користувача з ID " + data_proces.error.new_id + " не знайдено!");
           }
           else {
             $('#user-form-modal').modal('show');
@@ -645,10 +648,10 @@ $(document).ready(function() {
               $('.toggle-button').val('0');
             }
 
-            if (role === 'Admin') {
-              $('#role').val('Admin');
-            } else if (role === 'User') {
-              $('#role').val('User');
+            if (role === roles[1]) {
+              $('#role').val(roles[1]);
+            } else if (role === roles[2]) {
+              $('#role').val(roles[2]);
             }
           }
         },

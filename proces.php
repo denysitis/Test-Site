@@ -2,7 +2,7 @@
 
 require_once('./DB.php');
 
-$new_id = $_POST['new_id'];
+$new_id = mysqli_real_escape_string($connect, $_POST['new_id']);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 

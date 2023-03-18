@@ -2,8 +2,7 @@
 
 require_once('./DB.php');
 
-$user_id = $_POST['id'];
-$delete_usr = $_POST['delete_user'];
+$user_id = mysqli_real_escape_string($connect, $_POST['id']);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
